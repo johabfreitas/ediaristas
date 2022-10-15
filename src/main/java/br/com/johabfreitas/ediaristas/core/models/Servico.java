@@ -37,7 +37,7 @@ public class Servico {
 	@Column(name = "valor_minimo", nullable = false)
 	private BigDecimal valorMinimo;
 
-	@Column(name = "gtd_horas", nullable = false)
+	@Column(name = "qtd_horas", nullable = false)
 	private Integer qtdHoras;
 
 	@Column(name = "porcentagem_comissao", nullable = false)
