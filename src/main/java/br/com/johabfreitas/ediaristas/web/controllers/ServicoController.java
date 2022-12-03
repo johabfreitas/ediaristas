@@ -1,5 +1,7 @@
 package br.com.johabfreitas.ediaristas.web.controllers;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,7 +45,7 @@ public class ServicoController {
 	}
 
 	@PostMapping("/cadastrar")
-	public String cadastrar(ServicoForm form) {
+	public String cadastrar(@Valid ServicoForm form) {
 		var servico = mapper.toModel(form);
 		repository.save(servico);
 
@@ -63,7 +65,7 @@ public class ServicoController {
 	}
 	
 	@PostMapping("/{id}/editar")
-	public String editar(@PathVariable Long id, ServicoForm form) {
+	public String editar(@PathVariable Long id, @Valid ServicoForm form) {
 		var servico = mapper.toModel(form);
 		servico.setId(id);
 		
