@@ -28,7 +28,9 @@ public class WebServicoMapper {
 		model.setHorasCozinha(form.getHorasCozinha());
 		model.setValorCozinha(form.getValorCozinha());
 		model.setHorasQuintal(form.getHorasQuintal());
+		model.setValorQuintal(form.getValorQuintal());
 		model.setHorasOutros(form.getHorasOutros());
+		model.setValorOutros(form.getValorOutros());
 		model.setIcone(form.getIcone());
 		model.setPosicao(form.getPosicao());
 		
@@ -55,7 +57,9 @@ public class WebServicoMapper {
 		form.setHorasCozinha(model.getHorasCozinha());
 		form.setValorCozinha(model.getValorCozinha());
 		form.setHorasQuintal(model.getHorasQuintal());
+		form.setValorQuintal(model.getValorQuintal());
 		form.setHorasOutros(model.getHorasOutros());
+		form.setValorOutros(model.getValorOutros());
 		form.setIcone(model.getIcone());
 		form.setPosicao(model.getPosicao());
 		
