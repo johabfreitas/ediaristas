@@ -4,6 +4,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,9 +16,7 @@ import br.com.johabfreitas.ediaristas.core.enums.Icone;
 import br.com.johabfreitas.ediaristas.core.repositories.ServicoRepository;
 import br.com.johabfreitas.ediaristas.web.dtos.ServicoForm;
 import br.com.johabfreitas.ediaristas.web.mappers.WebServicoMapper;
-/*
- * Aplicando validação 13:38 -> 00:40
- */
+
 @Controller
 @RequestMapping("/admin/servicos")
 public class ServicoController {
@@ -47,7 +46,11 @@ public class ServicoController {
 	}
 
 	@PostMapping("/cadastrar")
-	public String cadastrar(@Valid ServicoForm form) {
+	public String cadastrar(@Valid @ModelAttribute("form") ServicoForm form, BindingResult result) {
+		if(result.hasErrors()) {
+			return "admin/servico/form";
+		}
+		
 		var servico = mapper.toModel(form);
 		repository.save(servico);
 
@@ -67,7 +70,10 @@ public class ServicoController {
 	}
 	
 	@PostMapping("/{id}/editar")
-	public String editar(@PathVariable Long id, @Valid ServicoForm form) {
+	public String editar(@PathVariable Long id, @Valid @ModelAttribute("form") ServicoForm form, BindingResult result) {
+		if(result.hasErrors()) {
+			return "admin/servico/form";
+		}
 		var servico = mapper.toModel(form);
 		servico.setId(id);
 		
