@@ -13,25 +13,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.com.johabfreitas.ediaristas.core.enums.Icone;
-import br.com.johabfreitas.ediaristas.core.repositories.ServicoRepository;
 import br.com.johabfreitas.ediaristas.web.dtos.ServicoForm;
-import br.com.johabfreitas.ediaristas.web.mappers.WebServicoMapper;
+import br.com.johabfreitas.ediaristas.web.services.WebServicoService;
 
 @Controller
 @RequestMapping("/admin/servicos")
 public class ServicoController {
 
 	@Autowired
-	private ServicoRepository repository;
-	
-	@Autowired
-	private WebServicoMapper mapper;
+	private WebServicoService service;
 
 	@GetMapping
 	public ModelAndView buscarTodos() {
 		var modelAndView = new ModelAndView("admin/servico/lista");
 
-		modelAndView.addObject("servicos", repository.findAll());
+		modelAndView.addObject("servicos", service.buscarTodos());
 
 		return modelAndView;
 	}
@@ -51,9 +47,7 @@ public class ServicoController {
 			return "admin/servico/form";
 		}
 		
-		var servico = mapper.toModel(form);
-		repository.save(servico);
-
+		service.cadastrar(form);
 		return "redirect:/admin/servicos";
 	}
 	
@@ -61,10 +55,7 @@ public class ServicoController {
 	public ModelAndView aditar(@PathVariable Long id) {
 		var modelAndView = new ModelAndView("admin/servico/form");
 		
-		var servico = repository.getReferenceById(id);
-		var form  = mapper.toForm(servico);
-		
-		modelAndView.addObject("form", form);
+		modelAndView.addObject("form", service.buscarPorId(id));
 		
 		return modelAndView;
 	}
@@ -74,17 +65,15 @@ public class ServicoController {
 		if(result.hasErrors()) {
 			return "admin/servico/form";
 		}
-		var servico = mapper.toModel(form);
-		servico.setId(id);
 		
-		repository.save(servico);
+		service.editar(form, id);
 		
 		return "redirect:/admin/servicos";
 	}
 
 	@GetMapping("/{id}/excluir")
 	public String excluir(@PathVariable Long id) {
-		repository.deleteById(id);
+		service.excluirPorId(id);
 
 		return "redirect:/admin/servicos";
 
