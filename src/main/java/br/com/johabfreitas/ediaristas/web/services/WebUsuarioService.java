@@ -10,6 +10,7 @@ import br.com.johabfreitas.ediaristas.core.exceptions.UsuarioNaoEncontradoExcept
 import br.com.johabfreitas.ediaristas.core.models.Usuario;
 import br.com.johabfreitas.ediaristas.core.repositories.UsuarioRepository;
 import br.com.johabfreitas.ediaristas.web.dtos.UsuarioCadastroForm;
+import br.com.johabfreitas.ediaristas.web.dtos.UsuarioEdicaoForm;
 import br.com.johabfreitas.ediaristas.web.mappers.WebUsuarioMapper;
 
 @Service
@@ -38,6 +39,12 @@ public class WebUsuarioService {
 		
 		return repository.findById(id)
 				  .orElseThrow(() -> new UsuarioNaoEncontradoException(mensagem));
+	}
+	
+	public UsuarioEdicaoForm buscarFormPorId(Long id) {
+		var usuario = buscarPorId(id);
+		
+		return mapper.toForm(usuario);
 	}
 	
 	public void excluirPorId(Long id) {
